@@ -8,7 +8,8 @@ class Question(db.Model) :
     subject = db.Column(db.String(200), nullable = False)       ## 질문 제목
     content = db.Column(db.Text(), nullable = False)            ## 질문 내용
     create_date = db.Column(db.DateTime(), nullable = False)    ## 질문 작성 일시
-
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete = 'CASCADE'), nullable = False)
+    user = db.relationship('User', backref = db.backref('question_set'))
 
 class Answer(db.Model) :
     id = db.Column(db.Integer, primary_key = True)                                              ## 답변 데이터의 고유 번호
@@ -16,6 +17,8 @@ class Answer(db.Model) :
     question = db.relationship('Question', backref = db.backref('answer_set', ))                ## 답변 모델에서 질문 모델을 참조하려고 추가 --답변 모델 객체에서 질문 모델 객체의 제목을 참조(answer.question.subject)
     content = db.Column(db.Text(), nullable = False)                                            ## 답변 내용
     create_date = db.Column(db.DateTime(), nullable = False)                                    ## 답변 작성 일시
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete = 'CASCADE'), nullable = False)
+    user = db.relationship('User', backref = db.backref('answer_set'))    
 
 
 class User(db.Model) :
