@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Blueprint, url_for, request, render_template, g
 from flask_wtf import form
 from werkzeug.utils import redirect
+from .auth_views import login_required
 from .. import db
 from ..forms import AnswerForm
 from ..models import Question, Answer
@@ -9,6 +10,7 @@ from ..models import Question, Answer
 bp = Blueprint('answer', __name__, url_prefix='/answer')
 
 @bp.route('/create/<int:question_id>', methods = ('POST', ))
+@login_required
 def create(question_id) :
     form = AnswerForm()
     question = Question.query.get_or_404(question_id)
